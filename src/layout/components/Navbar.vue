@@ -12,6 +12,8 @@
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
+        <lang-select class="right-menu-item hover-effect" />
+
       </template>
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
@@ -22,10 +24,12 @@
         </div>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/profile/index">
-            <el-dropdown-item>个人中心</el-dropdown-item>
+            <el-dropdown-item>
+              {{ $t('navbar.profile') }}
+            </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">退出登录</span>
+            <span style="display:block;" @click="logout">{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -39,6 +43,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
+import LangSelect from '@/components/LangSelect'
 import Search from '@/components/HeaderSearch'
 
 export default {
@@ -47,6 +52,7 @@ export default {
     Hamburger,
     ErrorLog,
     Screenfull,
+    LangSelect,
     Search
   },
   computed: {
@@ -62,9 +68,9 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      this.$confirm('确定注销并退出系统吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$i18n.t('navbar.logoutMessage'), this.$i18n.t('navbar.hint'), {
+        confirmButtonText: this.$i18n.t('navbar.confirm'),
+        cancelButtonText: this.$i18n.t('navbar.cancel'),
         type: 'warning'
       }).then(() => {
         this.$store.dispatch('user/LogOut').then(() => {

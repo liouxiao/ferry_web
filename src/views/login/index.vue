@@ -23,12 +23,13 @@
     <div class="login-weaper animated bounceInDown">
       <div class="login-left">
         <div class="login-time" v-text="currentTime" />
+        <lang-select class="set-language" />
         <img :src="logo" alt="" class="img">
         <p class="title" v-text="title" />
       </div>
       <div class="login-border">
         <div class="login-main">
-          <div class="login-title"> 用户登录 </div>
+          <div class="login-title"> {{ $t('login.title') }} </div>
           <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
             <el-form-item prop="username">
               <span class="svg-container">
@@ -37,7 +38,7 @@
               <el-input
                 ref="username"
                 v-model="loginForm.username"
-                placeholder="用户名"
+                :placeholder="$t('login.username')"
                 name="username"
                 type="text"
                 tabindex="1"
@@ -55,7 +56,7 @@
                   ref="password"
                   v-model="loginForm.password"
                   :type="passwordType"
-                  placeholder="密码"
+                  :placeholder="$t('login.password')"
                   name="password"
                   tabindex="2"
                   autocomplete="on"
@@ -75,7 +76,7 @@
               <el-input
                 ref="username"
                 v-model="loginForm.code"
-                placeholder="验证码"
+		:placeholder="$t('login.captcha')"
                 name="username"
                 type="text"
                 tabindex="3"
@@ -89,11 +90,11 @@
               <img style="height: 48px;width: 100%;border: 1px solid rgba(0,0,0, 0.1);border-radius:5px;" :src="codeUrl" @click="getCode">
             </div>
             <div prop="code" style="width: 100%;float: left;margin-bottom: 13px">
-              <el-checkbox v-model="isLdap">LDAP登陆</el-checkbox>
+              <el-checkbox v-model="useLdap">{{ $t('login.ldap') }}</el-checkbox>
             </div>
             <el-button :loading="loading" type="primary" style="width:100%;padding:12px 20px;margin-bottom:30px;" @click.native.prevent="handleLogin">
-              <span v-if="!loading">登 录</span>
-              <span v-else>登 录 中...</span>
+              <span v-if="!loading">{{ $t('login.logIn') }}</span>
+              <span v-else>{{ $t('login.loggingIn') }}</span>
             </el-button>
           </el-form>
         </div>
@@ -108,9 +109,11 @@
 import { getCodeImg } from '@/api/login'
 import moment from 'moment'
 import { mapGetters } from 'vuex'
+import LangSelect from '@/components/LangSelect'
 
 export default {
   name: 'Login',
+  components: { LangSelect },
   data() {
     return {
       codeUrl: '',
@@ -334,6 +337,12 @@ $cursor: #fff;
   font-weight: 600;
 }
 
+.login-left .set-language {
+  color: #ff0;
+  float: right;
+  font-size: 18px;
+}
+
 .login-border{
   position: relative;
     min-height: 500px;
@@ -438,6 +447,15 @@ $light_gray:#eee;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
+    }
+
+    .set-language {
+      color: #fff;
+      position: absolute;
+      top: 3px;
+      font-size: 18px;
+      right: 0px;
+      cursor: pointer;
     }
   }
 

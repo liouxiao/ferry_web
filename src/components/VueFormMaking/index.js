@@ -22,8 +22,12 @@ const loadLang = function(Vue, lang, locale, i18n) {
     i18n.locale = lang
   } else {
     Vue.use(VueI18n)
-    Vue.locale('en-US', { ...Vue.locale('en-US'), ...enUS })
-    Vue.locale('zh-CN', { ...Vue.locale('zh-CN'), ...zhCN })
+    /* FIXME: here will throw "TypeError: Vue.locale is not a function" exception!
+     *        Just move content of ./lang/en-US.js to /src/lang/en.js,
+     *        & move content of ./lang/zh-CN.js to /src/lang/zh.js
+     */
+    // Vue.locale('en-US', { ...Vue.locale('en-US'), ...enUS })
+    // Vue.locale('zh-CN', { ...Vue.locale('zh-CN'), ...zhCN })
     Vue.config.lang = lang
   }
 }
